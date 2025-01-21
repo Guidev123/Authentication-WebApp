@@ -3,6 +3,7 @@ import { LayoutComponent } from './shared/layout/layout.component';
 import { CatalogComponent } from './pages/catalog/catalog.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
+import { guestGuard } from './auth/infrastructure/guest.guard';
 
 export const routes: Routes = [
   {
@@ -11,7 +12,7 @@ export const routes: Routes = [
       children: [
       { path: '', redirectTo: 'catalog', pathMatch: 'full'},
       { path: 'catalog', component: CatalogComponent},
-      { path: 'register', component: RegisterComponent},
-      { path: 'login', component: LoginComponent}
+      { path: 'register', canActivate: [guestGuard], component: RegisterComponent},
+      { path: 'login', canActivate: [guestGuard], component: LoginComponent}
   ]}
 ];
