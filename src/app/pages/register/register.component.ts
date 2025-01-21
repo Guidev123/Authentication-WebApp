@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CpfMaskDirective } from '../../shared/directives/cpf-mask.diretive';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -12,7 +13,7 @@ import { CpfMaskDirective } from '../../shared/directives/cpf-mask.diretive';
 export class RegisterComponent {
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private authService: AuthService, private fb: FormBuilder) {
     this.form = this.fb.group({
       name: new FormControl('', [Validators.required, Validators.minLength(3)]),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -27,11 +28,10 @@ export class RegisterComponent {
     });
   }
 
-  onSubmit() {
-    if (this.form.valid) {
-      console.log(this.form.value);
-    } else {
-      console.log('Formulário inválido!');
+  onSubmit(){
+    if(this.form.valid){
+      this.authService.register(this.form.value)
+      .subscribe();
     }
   }
 }

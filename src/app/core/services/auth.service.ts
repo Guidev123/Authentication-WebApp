@@ -19,6 +19,6 @@ export class AuthService {
   }
 
   refreshToken(request: RefreshTokenRequest){
-    return this._http.post<ApiResponse<RefreshTokenRequest>>(`${ApiEndpoint.Auth.RefreshToken}`, request);
+    return this._http.post<ApiResponse<UserTokens>>(`${ApiEndpoint.Auth.RefreshToken}`, request);
   }
 }

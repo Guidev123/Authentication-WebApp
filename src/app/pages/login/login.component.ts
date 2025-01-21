@@ -21,11 +21,7 @@ export class LoginComponent {
   onSubmit(){
     if(this.form.valid){
       this.authService.login(this.form.value)
-      .subscribe({
-        next: (response) => {
-          console.log(response);
-        }
-      });
+      .subscribe();
     }
   }
 }
