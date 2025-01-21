@@ -1,4 +1,4 @@
-const apiUrl = 'https://localhost:44320/api/v1/auth';
+const apiUrl = 'https://localhost:44305/api/v1/auth';
 
 export const ApiEndpoint ={
   Auth:{
