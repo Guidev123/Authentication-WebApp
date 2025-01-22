@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CpfMaskDirective } from '../../shared/directives/cpf-mask.diretive';
 import { AuthService } from '../../core/services/auth.service';
+import { passwordMatchValidator } from '../../shared/validators/password-match.validator';
 
 @Component({
   selector: 'app-register',
@@ -14,24 +15,27 @@ export class RegisterComponent {
   form: FormGroup;
 
   constructor(private authService: AuthService, private fb: FormBuilder) {
-    this.form = this.fb.group({
-      name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      cpf: new FormControl('', [
-        Validators.required,
-        Validators.minLength(11),
-        Validators.maxLength(11),
-        Validators.pattern(/^\d+$/)
-      ]),
-      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      confirmPassword: new FormControl('', [Validators.required])
-    });
+    this.form = this.fb.group(
+      {
+        name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+        email: new FormControl('', [Validators.required, Validators.email]),
+        cpf: new FormControl('', [
+          Validators.required,
+          Validators.minLength(11),
+          Validators.maxLength(11),
+          Validators.pattern(/^\d+$/)
+        ]),
+        password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+        confirmPassword: new FormControl('', [Validators.required])
+      },
+      { validators: passwordMatchValidator }
+    );
   }
 
-  onSubmit(){
-    if(this.form.valid){
+  onSubmit() {
+    if (this.form.valid) {
       this.authService.register(this.form.value)
-      .subscribe();
+        .subscribe();
     }
   }
 }

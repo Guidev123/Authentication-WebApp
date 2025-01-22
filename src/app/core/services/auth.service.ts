@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environments.development';
-import { LoginRequest, RefreshTokenRequest, RegisterRequest, UserTokens } from '../models/auth.model';
+import { LoginRequest, RegisterRequest, UserTokens } from '../models/auth.model';
 import { ApiResponse } from '../models/common.model';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -52,14 +52,18 @@ export class AuthService {
     );
   }
 
-  refreshToken(request: RefreshTokenRequest) {
-    return this._http.post<ApiResponse<UserTokens>>(`${this.apiUrl.RefreshToken}`, request).pipe(
+  refreshToken(refreshToken: string) {
+    return this._http.post<ApiResponse<UserTokens>>(`${this.apiUrl.RefreshToken}?refreshToken=${refreshToken}`, {}).pipe(
       map(this.handleTokens.bind(this))
     );
   }
 
   getUserToken(){
     return localStorage.getItem(environment.LocalStorage.token);
+  }
+
+  getUserRefreshToken(): string | null {
+    return localStorage.getItem(environment.LocalStorage.refreshToken);
   }
 
   logout(): void {
