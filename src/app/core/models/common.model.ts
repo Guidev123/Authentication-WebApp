@@ -1,5 +1,5 @@
 export interface ApiResponse<T> {
-  errors?: [],
-  message?: string,
-  data?: T
+  errors?: string[];
+  message?: string;
+  data?: T;
 }
